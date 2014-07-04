@@ -1,7 +1,9 @@
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * Servlet implementation class Upload
@@ -35,19 +40,59 @@ public class Upload extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String file = request.getParameter("file");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+	    response.setContentType("text/html; charset=UTF-8");    
 		
-		PrintWriter out = response.getWriter();
-		
+	    PrintWriter out = response.getWriter();
 		out.println("<!DOCTYPE html>");
 		out.println("<html>");
 		out.println("<head>");
 		out.println("</head>");
 		out.println("<body>");
 		
-		out.println("Uploaded file:" + file);
+		final int maxFileSize = 100 * 1024 *1024;
+		final int maxMemSize = 4 * 1024;
 		
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+	    factory.setSizeThreshold(maxMemSize);
+	    factory.setRepository(new File("D:/apache-tomcat-7.0.54/webapps/data"));
+	
+	    ServletFileUpload upload = new ServletFileUpload(factory);
+	    upload.setSizeMax( maxFileSize );		
+	 
+		try{
+			List<FileItem> itemList = upload.parseRequest(request);
+			for (FileItem item : itemList) {      
+		        if(item.isFormField()){
+		        	String fieldName = item.getFieldName();
+		            String value = item.getString();          
+		            out.println(fieldName + "=" + value+"<br>");          
+		        }else{
+	        	    String fileName = item.getName();
+	        	    long sizeInBytes = item.getSize();
+	        	    out.println("fileName:"+fileName+"<br>");
+	        	    out.println("sizeInBytes:"+sizeInBytes+"<br>");	 
+	        	    
+	        	    if(fileName.endsWith(".vcf")){
+	        	    	if(item.isInMemory()){
+	        	    		byte[] data = item.get();
+	        	    	}else{
+		        	    	File writeFile=new File("E:/JAVAupload/",fileName);
+		        	    	item.write(writeFile);
+	        	    	}
+	        	    	out.println("Upload successful<br>");
+	        	    }else{
+	        	    	out.println("Unavailable file<br>");
+	        	    }
+		        }
+			}
+		}catch(Exception ex){ //File large than MaxFileSize
+			out.println("Unavailable file!<br>");
+		}
+
 		out.println("</body>");
 		out.println("</html>");
 		
