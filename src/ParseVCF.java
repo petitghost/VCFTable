@@ -65,17 +65,19 @@ public class ParseVCF extends HttpServlet {
 	}
 	
 	public void parseFile(String content, ArrayList<String> columnList){
-		if(!columnList.isEmpty()){
-			for(int i=0;i< columnList.size();i++){
-				System.out.print(columnList.get(i)+"\n");
-			}
-		}else{
-			System.out.println("no selected");
-		}
 		
 		String[] line = content.split("\n");
 		for(String s:line){
-			if(s.startsWith("##")){
+			if(!s.startsWith("#")){
+				String[] field = s.split("\t");
+				if(!columnList.isEmpty()){
+					for(int i=0;i< columnList.size();i++){
+						System.out.print(field[Integer.parseInt(columnList.get(i))]+"\t");
+					}
+					System.out.print("\n");
+				}else{
+					System.out.println("no selected");
+				}
 				
 			}
 		}
