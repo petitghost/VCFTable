@@ -7,10 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form method="post" action="Upload">
 <p>Upload VCF file here.<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-41"> To see format details.</a></p>
-<input type="file" name="file" size="40" maxlength="20"/>
-<p><input type="submit" value="Upload"> <input type="reset" value="Clean"></p>
+<form enctype="multipart/form-data" method="post" action="Upload">  
+<input type="checkbox" name="column" value="chrom">Chrom<br>
+<input type="checkbox" name="column" value="pos">Position<br>
+<input type="checkbox" name="column" value="id">ID<br>
+<input type="checkbox" name="column" value="alt">Alt<br>
+<input type="checkbox" name="column" value="qual">Qual<br>
+<input type="checkbox" name="column" value="filter">Filter<br><br>
+
+<input type="file" name="file" size="40" maxlength="20"/><br><br>
+<input type="submit" value="Upload"> <input type="reset" value="Clean">
 </form>
 </body>
 </html>
