@@ -1,9 +1,9 @@
 
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -66,35 +66,9 @@ public class Upload extends HttpServlet {
 	 
 		try{
 			List<FileItem> itemList = upload.parseRequest(request);
-			ArrayList<String> col=new ArrayList<String>();
-			for (FileItem item : itemList) {      
-		        if(item.isFormField()){
-		        	String fieldName = item.getFieldName();
-		        	if(fieldName.equals("column")){
-		        		col.add(item.getString());
-		        	}      
-		        }else{
-	        	    String fileName = item.getName();
-	        	    long sizeInBytes = item.getSize();
-	        	    out.println("fileName:"+fileName+"<br>");
-	        	    out.println("sizeInBytes:"+sizeInBytes+"<br>");	 
-	        	    
-	        	    if(fileName.endsWith(".vcf")){
-	        	    	ParseVCF file = new ParseVCF();
-	        	    	if(item.isInMemory()){
-	        	    		byte[] data = item.get();
-	        	    		file.parseFile(file.readFileInMemory(data),col);
-	        	    	}else{
-		        	    	File writeFile=new File("E:/JAVAupload/",fileName);
-		        	    	item.write(writeFile);
-		        	    	file.parseFile(file.readFile("E:/JAVAupload/",fileName),col);
-	        	    	} 
-	        	    	out.println("Uploaded successfully<br>");
-	        	    }else{
-	        	    	out.println("Unavailable file<br>");
-	        	    }
-		        }
-			}
+			ParseFile input=new ParseFile();
+			input.saveFile(itemList);
+
 		}catch(Exception ex){ //File large than MaxFileSize
 			out.println("Unavailable file!<br>");
 		}
