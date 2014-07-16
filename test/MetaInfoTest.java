@@ -2,13 +2,23 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import vcf_parser.Filter;
+import vcf_parser.Info;
+import vcf_parser.MetaInformation;
+
 
 public class MetaInfoTest{
-	String content =
+	
+	static final String content =
 			"##fileformat=VCFv4.1\n"+
 			"##FILTER=<ID=LowQual,Description=\"Low quality\">\n"+
 			"##FILTER=<ID=q10,Description=\"Quality below 10\">\n"+
-			"##FILTER=<ID=s50,Description=\"Less than 50% of samples have data\">\n";
+			"##FILTER=<ID=s50,Description=\"Less than 50% of samples have data\">\n"+
+			"##INFO=<ID=NS,Number=1,Type=Integer,Description=\"Number of Samples With Data\">\n"+
+			"##INFO=<ID=DP,Number=1,Type=Integer,Description=\"Total Depth\">\n"+
+			"##INFO=<ID=AF,Number=A,Type=Float,Description=\"Allele Frequency\">\n"+
+			"##INFO=<ID=AA,Number=1,Type=String,Description=\"Ancestral Allele\">\n";
+	
 	
 	@Test
 	public void testBasicInfo() {
@@ -17,15 +27,16 @@ public class MetaInfoTest{
 	}
 	
 	@Test
-	public void getFilterColumn(){
-		int i=0;
-		FilterColumn[] filterThreshold = new FilterColumn[10];
+	public void getFilterColumn(){		
+		int filterCount=0;
+		String content= "##FILTER=<ID=LowQual,Description=\"Low quality\">\n"+
+				"##FILTER=<ID=q10,Description=\"Quality below 10\">\n"+
+				"##FILTER=<ID=s50,Description=\"Less than 50% of samples have data\">\n";
+		Filter[] filterThreshold = new Filter[10];
 		String[] lines=content.split("\n");
 		for(String line:lines){
-			if(line.startsWith("##FILTER")){
-				filterThreshold[i]=new FilterColumn(line);
-				i++;
-			}
+			filterThreshold[filterCount]=new Filter(line);
+			filterCount++;
 		}
 		
 		assertEquals("LowQual", filterThreshold[0].id);
@@ -38,5 +49,38 @@ public class MetaInfoTest{
 		assertEquals("Less than 50% of samples have data", filterThreshold[2].description);
 	}
 	
+	@Test
+	public void getInfoColumn(){
+		int infoCount=0;
+		String content= "##INFO=<ID=NS,Number=1,Type=Integer,Description=\"Number of Samples With Data\">\n"+
+				"##INFO=<ID=DP,Number=1,Type=Integer,Description=\"Total Depth\">\n"+
+				"##INFO=<ID=AF,Number=A,Type=Float,Description=\"Allele Frequency\">\n"+
+				"##INFO=<ID=AA,Number=1,Type=String,Description=\"Ancestral Allele\">\n";
+		Info[] information=new Info[10];
+		String[] lines=content.split("\n");
+		for(String line:lines){
+			information[infoCount]=new Info(line);
+			infoCount++;
+		}
+		assertEquals("NS", information[0].id);
+		assertEquals("1", information[0].number);
+		assertEquals("Integer", information[0].type);
+		assertEquals("Number of Samples With Data", information[0].description);
+		
+		assertEquals("DP", information[1].id);
+		assertEquals("1", information[1].number);
+		assertEquals("Integer", information[1].type);
+		assertEquals("Total Depth", information[1].description);
+		
+		assertEquals("AF", information[2].id);
+		assertEquals("A", information[2].number);
+		assertEquals("Float", information[2].type);
+		assertEquals("Allele Frequency", information[2].description);
+		
+		assertEquals("AA", information[3].id);
+		assertEquals("1", information[3].number);
+		assertEquals("String", information[3].type);
+		assertEquals("Ancestral Allele", information[3].description);
+	}
 
 }
