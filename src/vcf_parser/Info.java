@@ -7,7 +7,7 @@ public class Info {
 	public String description;
 	
 	public Info(String line){
-		ParserMetaField data = new ParserMetaField(line);
+		MetaField data = new MetaField(line);
 		this.id = data.getID();
 		this.number = data.getNumber();
 		this.type = data.getType();

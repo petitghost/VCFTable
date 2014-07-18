@@ -1,12 +1,12 @@
 package vcf_parser;
 
-public class ParserMetaField {
+public class MetaField {
 	public String id;
 	public String number;
 	public String type;
 	public String description;
 	
-	public ParserMetaField(String line) {
+	public MetaField(String line) {
 		cutLine(line);
 	}
 	
