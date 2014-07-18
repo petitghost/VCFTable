@@ -1,12 +1,12 @@
 package vcf_parser;
 
-public class parserMetaField {
+public class ParserMetaField {
 	public String id;
 	public String number;
 	public String type;
 	public String description;
 	
-	public parserMetaField(String line) {
+	public ParserMetaField(String line) {
 		cutLine(line);
 	}
 	
@@ -14,7 +14,6 @@ public class parserMetaField {
 		StringBuffer sb=new StringBuffer(line);
 		int pos;
 		while((pos=line.indexOf(',', line.indexOf("Description")))>-1){
-			//sb.replace(pos, pos, ".");
 			sb.deleteCharAt(pos);
 			line=sb.toString();
 		}

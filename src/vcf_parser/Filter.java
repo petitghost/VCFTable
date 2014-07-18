@@ -5,7 +5,7 @@ public class Filter {
 	public String description;
 	
 	public Filter(String line) {
-		parserMetaField data=new parserMetaField(line);
+		ParserMetaField data=new ParserMetaField(line);
 		this.id=data.getID();
 		this.description=data.getDescription();
 	}

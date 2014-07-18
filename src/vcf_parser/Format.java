@@ -7,7 +7,7 @@ public class Format {
 	public String description;
 	
 	public Format(String line) {
-		parserMetaField data = new parserMetaField(line);
+		ParserMetaField data = new ParserMetaField(line);
 		this.id = data.getID();
 		this.number = data.getNumber();
 		this.type = data.getType();
