@@ -1,7 +1,11 @@
 package vcf_parser;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class ParsedMetaInfo {
 
+	public Map<String, String> metaInfo=new TreeMap<String, String>();
 	public Filter[] filter = new Filter[10];
 	public Format[] format=new Format[10];
 	public Info[] information=new Info[10];
@@ -22,10 +26,22 @@ public class ParsedMetaInfo {
 					infoCount++;
 				
 				}
+			}else{
+				StringBuffer sb=new StringBuffer(line);
+				sb.delete(0, 2); //deleted ##
+				line=sb.toString();
+				String[] data=line.split("=");
+				put(data[0],data[1]);
 			}
 		}		
 	}
 
+	public void put(String key, String value) {
+		metaInfo.put(key, value);
+	}
 	
+	public String get(String key){
+		return metaInfo.get(key);
+	}
 
 }

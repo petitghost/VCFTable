@@ -5,7 +5,6 @@ import org.junit.Test;
 import vcf_parser.Filter;
 import vcf_parser.Format;
 import vcf_parser.Info;
-import vcf_parser.BasicInfo;
 import vcf_parser.ParsedMetaInfo;
 
 
@@ -34,10 +33,11 @@ public class MetaInfoTest{
 				"##fileformat=VCFv4.1\n"+
 				"##fileDate=20090805\n"+
 				"##reference=file:///seq/references/1000GenomesPilot-NCBI36.fasta\n";
-		BasicInfo basic = new BasicInfo(basicContent);
-		assertEquals("fileformat","VCFv4.1", basic.get("fileformat"));
-		assertEquals("fileDate","20090805", basic.get("fileDate"));
-		assertEquals("reference","file:///seq/references/1000GenomesPilot-NCBI36.fasta", basic.get("reference"));
+		//BasicInfo basic = new BasicInfo(basicContent);
+		ParsedMetaInfo metaInfo=new ParsedMetaInfo(basicContent);
+		assertEquals("fileformat","VCFv4.1", metaInfo.get("fileformat"));
+		assertEquals("fileDate","20090805", metaInfo.get("fileDate"));
+		assertEquals("reference","file:///seq/references/1000GenomesPilot-NCBI36.fasta", metaInfo.get("reference"));
 	}
 	
 	@Test
@@ -64,36 +64,22 @@ public class MetaInfoTest{
 	
 	@Test
 	public void parsedFormatTest(){
-		String formatContent=
-				"##FORMAT=<ID=AD,Number=.,Type=Integer,Description=\"Allelic depths for the ref and alt alleles in the order listed\">\n";
-//				"##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">\n"+
-//				"##FORMAT=<ID=PL,Number=G,Type=Integer,Description=\"Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification\">\n";		
+		String formatContent="##FORMAT=<ID=AD,Number=.,Type=Integer,Description=\"Allelic depths for the ref and alt alleles in the order listed\">\n";
 		Format format=new Format(formatContent);
 		
 		assertEquals("AD", format.id);
 		assertEquals(".", format.number);
 		assertEquals("Integer", format.type);
 		assertEquals("Allelic depths for the ref and alt alleles in the order listed", format.description);
-		
-//		assertEquals("GT", format[1].id);
-//		assertEquals("1", format[1].number);
-//		assertEquals("String", format[1].type);
-//		assertEquals("Genotype", format[1].description);
-//		
-//		assertEquals("PL", format[2].id);
-//		assertEquals("G", format[2].number);
-//		assertEquals("Integer", format[2].type);
-//		assertEquals("Normalized Phred-scaled likelihoods for genotypes as defined in the VCF specification", format[2].description);
 	}
 	
 	@Test
 	public void allMetaInfoTest(){
-		BasicInfo info = new BasicInfo(content);
 		ParsedMetaInfo metaInfo=new ParsedMetaInfo(content);
 		
-		assertEquals("fileformat","VCFv4.1", info.get("fileformat"));
-		assertEquals("fileDate","20090805", info.get("fileDate"));
-		assertEquals("reference","file:///seq/references/1000GenomesPilot-NCBI36.fasta", info.get("reference"));	
+		assertEquals("fileformat","VCFv4.1", metaInfo.get("fileformat"));
+		assertEquals("fileDate","20090805", metaInfo.get("fileDate"));
+		assertEquals("reference","file:///seq/references/1000GenomesPilot-NCBI36.fasta", metaInfo.get("reference"));	
 				
 		assertEquals("LowQual", metaInfo.filter[0].id);
 		assertEquals("Low quality", metaInfo.filter[0].description);
