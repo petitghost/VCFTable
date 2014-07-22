@@ -33,7 +33,6 @@ public class MetaInfoTest{
 				"##fileformat=VCFv4.1\n"+
 				"##fileDate=20090805\n"+
 				"##reference=file:///seq/references/1000GenomesPilot-NCBI36.fasta\n";
-		//BasicInfo basic = new BasicInfo(basicContent);
 		ParsedMetaInfo metaInfo=new ParsedMetaInfo(basicContent);
 		assertEquals("fileformat","VCFv4.1", metaInfo.get("fileformat"));
 		assertEquals("fileDate","20090805", metaInfo.get("fileDate"));
@@ -80,51 +79,51 @@ public class MetaInfoTest{
 		assertEquals("fileformat","VCFv4.1", metaInfo.get("fileformat"));
 		assertEquals("fileDate","20090805", metaInfo.get("fileDate"));
 		assertEquals("reference","file:///seq/references/1000GenomesPilot-NCBI36.fasta", metaInfo.get("reference"));	
-				
-		assertEquals("LowQual", metaInfo.filter[0].id);
-		assertEquals("Low quality", metaInfo.filter[0].description);
 		
-		assertEquals("q10", metaInfo.filter[1].id);
-		assertEquals("Quality below 10", metaInfo.filter[1].description);
+		assertEquals("LowQual", metaInfo.filterList.get(0).id);
+		assertEquals("Low quality", metaInfo.filterList.get(0).description);
 		
-		assertEquals("s50", metaInfo.filter[2].id);
-		assertEquals("Less than 50% of samples have data", metaInfo.filter[2].description);
+		assertEquals("q10", metaInfo.filterList.get(1).id);
+		assertEquals("Quality below 10", metaInfo.filterList.get(1).description);
 		
-		assertEquals("AD", metaInfo.format[0].id);
-		assertEquals(".", metaInfo.format[0].number);
-		assertEquals("Integer", metaInfo.format[0].type);
-		assertEquals("Allelic depths for the ref and alt alleles in the order listed", metaInfo.format[0].description);
+		assertEquals("s50", metaInfo.filterList.get(2).id);
+		assertEquals("Less than 50% of samples have data", metaInfo.filterList.get(2).description);
 		
-		assertEquals("GT", metaInfo.format[1].id);
-		assertEquals("1", metaInfo.format[1].number);
-		assertEquals("String", metaInfo.format[1].type);
-		assertEquals("Genotype", metaInfo.format[1].description);
+		assertEquals("AD", metaInfo.formatList.get(0).id);
+		assertEquals(".", metaInfo.formatList.get(0).number);
+		assertEquals("Integer", metaInfo.formatList.get(0).type);
+		assertEquals("Allelic depths for the ref and alt alleles in the order listed", metaInfo.formatList.get(0).description);
 		
-		assertEquals("PL", metaInfo.format[2].id);
-		assertEquals("G", metaInfo.format[2].number);
-		assertEquals("Integer", metaInfo.format[2].type);
-		assertEquals("Normalized Phred-scaled likelihoods for genotypes as defined in the VCF specification", metaInfo.format[2].description);
+		assertEquals("GT", metaInfo.formatList.get(1).id);
+		assertEquals("1", metaInfo.formatList.get(1).number);
+		assertEquals("String", metaInfo.formatList.get(1).type);
+		assertEquals("Genotype", metaInfo.formatList.get(1).description);
+		
+		assertEquals("PL", metaInfo.formatList.get(2).id);
+		assertEquals("G", metaInfo.formatList.get(2).number);
+		assertEquals("Integer", metaInfo.formatList.get(2).type);
+		assertEquals("Normalized Phred-scaled likelihoods for genotypes as defined in the VCF specification", metaInfo.formatList.get(2).description);
 	
 		
-		assertEquals("NS", metaInfo.information[0].id);
-		assertEquals("1", metaInfo.information[0].number);
-		assertEquals("Integer", metaInfo.information[0].type);
-		assertEquals("Number of Samples With Data", metaInfo.information[0].description);
+		assertEquals("NS", metaInfo.infoList.get(0).id);
+		assertEquals("1", metaInfo.infoList.get(0).number);
+		assertEquals("Integer", metaInfo.infoList.get(0).type);
+		assertEquals("Number of Samples With Data", metaInfo.infoList.get(0).description);
 		
-		assertEquals("DP", metaInfo.information[1].id);
-		assertEquals("1", metaInfo.information[1].number);
-		assertEquals("Integer", metaInfo.information[1].type);
-		assertEquals("Total Depth", metaInfo.information[1].description);
+		assertEquals("DP", metaInfo.infoList.get(1).id);
+		assertEquals("1", metaInfo.infoList.get(1).number);
+		assertEquals("Integer", metaInfo.infoList.get(1).type);
+		assertEquals("Total Depth", metaInfo.infoList.get(1).description);
 		
-		assertEquals("AF", metaInfo.information[2].id);
-		assertEquals("A", metaInfo.information[2].number);
-		assertEquals("Float", metaInfo.information[2].type);
-		assertEquals("Allele Frequency", metaInfo.information[2].description);
+		assertEquals("AF", metaInfo.infoList.get(2).id);
+		assertEquals("A", metaInfo.infoList.get(2).number);
+		assertEquals("Float", metaInfo.infoList.get(2).type);
+		assertEquals("Allele Frequency", metaInfo.infoList.get(2).description);
 		
-		assertEquals("AA", metaInfo.information[3].id);
-		assertEquals("1", metaInfo.information[3].number);
-		assertEquals("String", metaInfo.information[3].type);
-		assertEquals("Ancestral Allele", metaInfo.information[3].description);
+		assertEquals("AA", metaInfo.infoList.get(3).id);
+		assertEquals("1", metaInfo.infoList.get(3).number);
+		assertEquals("String", metaInfo.infoList.get(3).type);
+		assertEquals("Ancestral Allele", metaInfo.infoList.get(3).description);
 	}
 
 }

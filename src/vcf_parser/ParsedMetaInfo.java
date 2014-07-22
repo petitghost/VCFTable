@@ -1,30 +1,29 @@
 package vcf_parser;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class ParsedMetaInfo {
 
 	public Map<String, String> metaInfo=new TreeMap<String, String>();
-	public Filter[] filter;
-	public Format[] format;
-	public Info[] information;
+	public ArrayList<Filter> filterList=new ArrayList<Filter>();
+	public ArrayList<Format> formatList=new ArrayList<Format>();
+	public ArrayList<Info> infoList=new ArrayList<Info>();
 	
 	public ParsedMetaInfo(String content) {
-		dynamicArraySize(content);
-		int filterIndex=0, formatIndex=0, infoSize=0;
 		String[] lines=content.split("\n");
 		for(String line:lines){
 			if(line.contains("=<")){
 				if(line.startsWith("##FILTER")){
-					filter[filterIndex]=new Filter(line);
-					filterIndex++;
+					Filter filterItem=new Filter(line);
+					filterList.add(filterItem);
 				}else if(line.startsWith("##FORMAT")){
-					format[formatIndex]=new Format(line);
-					formatIndex++;
+					Format formatItem=new Format(line);
+					formatList.add(formatItem);
 				}else if(line.startsWith("##INFO")){
-					information[infoSize]=new Info(line);
-					infoSize++;
+					Info infoItem=new Info(line);
+					infoList.add(infoItem);
 				}
 			}else{
 				StringBuffer sb=new StringBuffer(line);
@@ -44,25 +43,4 @@ public class ParsedMetaInfo {
 		return metaInfo.get(key);
 	}
 
-	private void dynamicArraySize(String content){
-		int filterSize=0, formatSize=0, infoSize=0;
-		String[] lines=content.split("\n");
-		for(String line:lines){
-			if(line.startsWith("##")){
-				if(line.startsWith("##FILTER")){
-					filterSize++;
-				}else if(line.startsWith("##FORMAT")){
-					formatSize++;
-				}else if(line.startsWith("##INFO")){
-					infoSize++;
-				
-				}
-			}else{
-				break;
-			}
-		}
-		filter = new Filter[filterSize];
-		format=new Format[formatSize];
-		information=new Info[infoSize];
-	}
 }
