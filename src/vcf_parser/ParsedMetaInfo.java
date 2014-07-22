@@ -6,25 +6,25 @@ import java.util.TreeMap;
 public class ParsedMetaInfo {
 
 	public Map<String, String> metaInfo=new TreeMap<String, String>();
-	public Filter[] filter = new Filter[10];
-	public Format[] format=new Format[10];
-	public Info[] information=new Info[10];
+	public Filter[] filter;
+	public Format[] format;
+	public Info[] information;
 	
 	public ParsedMetaInfo(String content) {
-		int filterCount=0, formatCount=0, infoCount=0;
+		dynamicArraySize(content);
+		int filterIndex=0, formatIndex=0, infoSize=0;
 		String[] lines=content.split("\n");
 		for(String line:lines){
 			if(line.contains("=<")){
 				if(line.startsWith("##FILTER")){
-					filter[filterCount]=new Filter(line);
-					filterCount++;
+					filter[filterIndex]=new Filter(line);
+					filterIndex++;
 				}else if(line.startsWith("##FORMAT")){
-					format[formatCount]=new Format(line);
-					formatCount++;
+					format[formatIndex]=new Format(line);
+					formatIndex++;
 				}else if(line.startsWith("##INFO")){
-					information[infoCount]=new Info(line);
-					infoCount++;
-				
+					information[infoSize]=new Info(line);
+					infoSize++;
 				}
 			}else{
 				StringBuffer sb=new StringBuffer(line);
@@ -44,4 +44,25 @@ public class ParsedMetaInfo {
 		return metaInfo.get(key);
 	}
 
+	private void dynamicArraySize(String content){
+		int filterSize=0, formatSize=0, infoSize=0;
+		String[] lines=content.split("\n");
+		for(String line:lines){
+			if(line.startsWith("##")){
+				if(line.startsWith("##FILTER")){
+					filterSize++;
+				}else if(line.startsWith("##FORMAT")){
+					formatSize++;
+				}else if(line.startsWith("##INFO")){
+					infoSize++;
+				
+				}
+			}else{
+				break;
+			}
+		}
+		filter = new Filter[filterSize];
+		format=new Format[formatSize];
+		information=new Info[infoSize];
+	}
 }
