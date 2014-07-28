@@ -1,5 +1,6 @@
 package vcf_parser;
 
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,28 +12,37 @@ public class ParsedMetaInfo {
 	public ArrayList<Format> formatList=new ArrayList<Format>();
 	public ArrayList<Info> infoList=new ArrayList<Info>();
 	
-	public ParsedMetaInfo(String content) {
-		String[] lines=content.split("\n");
-		for(String line:lines){
-			if(line.contains("=<")){
-				if(line.startsWith("##FILTER")){
-					Filter filterItem=new Filter(line);
-					filterList.add(filterItem);
-				}else if(line.startsWith("##FORMAT")){
-					Format formatItem=new Format(line);
-					formatList.add(formatItem);
-				}else if(line.startsWith("##INFO")){
-					Info infoItem=new Info(line);
-					infoList.add(infoItem);
-				}
-			}else{
-				StringBuffer sb=new StringBuffer(line);
-				sb.delete(0, 2); //deleted ##
-				line=sb.toString();
-				String[] data=line.split("=");
-				put(data[0],data[1]);
+	public static void main(String[] args){
+		
+	}
+	
+	public ParsedMetaInfo(BufferedReader inputStream) {
+		try{
+			String line;
+			while((line=inputStream.readLine())!=null){
+				if(line.contains("=<")){
+					if(line.startsWith("##FILTER")){
+						Filter filterItem=new Filter(line);
+						filterList.add(filterItem);
+					}else if(line.startsWith("##FORMAT")){
+						Format formatItem=new Format(line);
+						formatList.add(formatItem);
+					}else if(line.startsWith("##INFO")){
+						Info infoItem=new Info(line);
+						infoList.add(infoItem);
+					}
+				}else{
+					StringBuffer sb=new StringBuffer(line);
+					sb.delete(0, 2); //deleted ##
+					line=sb.toString();
+					String[] data=line.split("=");
+					put(data[0],data[1]);
+				}				
 			}
-		}		
+		}catch(java.io.IOException ex){
+			System.out.println("error");
+		}
+			
 	}
 
 	public void put(String key, String value) {
