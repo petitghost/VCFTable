@@ -36,8 +36,8 @@ public class MetaInfoTest{
 				"##fileformat=VCFv4.1\n"+
 				"##fileDate=20090805\n"+
 				"##reference=file:///seq/references/1000GenomesPilot-NCBI36.fasta\n";
-		BufferedReader inputStream=new BufferedReader(new StringReader(basicContent));
-		ParsedMetaInfo metaInfo=new ParsedMetaInfo(inputStream);
+		BufferedReader reader=new BufferedReader(new StringReader(basicContent));
+		ParsedMetaInfo metaInfo=new ParsedMetaInfo(reader);
 		assertEquals("fileformat","VCFv4.1", metaInfo.get("fileformat"));
 		assertEquals("fileDate","20090805", metaInfo.get("fileDate"));
 		assertEquals("reference","file:///seq/references/1000GenomesPilot-NCBI36.fasta", metaInfo.get("reference"));
@@ -78,8 +78,8 @@ public class MetaInfoTest{
 	
 	@Test
 	public void allMetaInfoTest(){
-		BufferedReader inputStream=new BufferedReader(new StringReader(content));
-		ParsedMetaInfo metaInfo=new ParsedMetaInfo(inputStream);
+		BufferedReader reader=new BufferedReader(new StringReader(content));
+		ParsedMetaInfo metaInfo=new ParsedMetaInfo(reader);
 		
 		assertEquals("fileformat","VCFv4.1", metaInfo.get("fileformat"));
 		assertEquals("fileDate","20090805", metaInfo.get("fileDate"));

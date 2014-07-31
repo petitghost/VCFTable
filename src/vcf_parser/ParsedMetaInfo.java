@@ -16,10 +16,10 @@ public class ParsedMetaInfo {
 		
 	}
 	
-	public ParsedMetaInfo(BufferedReader inputStream) {
+	public ParsedMetaInfo(BufferedReader reader) {
 		try{
 			String line;
-			while((line=inputStream.readLine())!=null){
+			while((line=reader.readLine())!=null){
 				if(line.contains("=<")){
 					if(line.startsWith("##FILTER")){
 						Filter filterItem=new Filter(line);
@@ -39,6 +39,7 @@ public class ParsedMetaInfo {
 					put(data[0],data[1]);
 				}				
 			}
+			reader.close();
 		}catch(java.io.IOException ex){
 			System.out.println("error");
 		}
