@@ -1,11 +1,17 @@
 package vcf_parser;
 
-import java.util.ArrayList;
 
 public class Sample {
-	public ArrayList<String> data=new ArrayList<String>();
+	public String data;
 	
-	public void addData(String line){
-		data.add(line);		
+	public Sample(String data){
+		this.data=data;
 	}
+
+	public String getName(String name) {
+		
+		return null;
+	}
+	
+	
 }
