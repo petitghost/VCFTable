@@ -2,8 +2,6 @@ package vcf_parser;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class ParsedData {
 	public ArrayList<String> chrom = new ArrayList<String>();
@@ -60,7 +58,7 @@ public class ParsedData {
 						}else if(i==8){
 							format.add(columns[i]);
 						}else{
-							sampleList.get(columns.length-(i+1)).addData(columns[i]);
+							sampleList.get(i-9).addData(columns[i]);
 							//sampleList.get(0).data.add(columns[i]);
 							
 						}

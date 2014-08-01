@@ -60,4 +60,61 @@ public class DataTest {
 		assertEquals("GT:AD:DP:GQ:PL", data.format.get(1));
 		assertEquals("1/1:1,120:122:99:2414,195,0", data.sampleList.get(0).data.get(1));
 	}
+	
+	@Test
+	public void multipleSampleSingleLine(){
+		String multiSampleSingleLine="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001	NA00002	NA00003\n"+
+									 "20	14370	rs6054257	G	A	29	PASS	NS=3;DP=14;AF=0.5;DB;H2	GT:GQ:DP:HQ	0|0:48:1:51,51	1|0:48:8:51,51	1/1:43:5:.,.";
+		
+		BufferedReader reader=new BufferedReader(new StringReader(multiSampleSingleLine));
+		ParsedData data=new ParsedData(reader);
+		assertEquals("20", data.chrom.get(0));
+		assertEquals("14370", data.pos.get(0));
+		assertEquals("rs6054257", data.id.get(0));
+		assertEquals("G", data.ref.get(0));
+		assertEquals("A", data.alt.get(0));
+		assertEquals("29", data.qual.get(0));
+		assertEquals("PASS", data.filter.get(0));
+		assertEquals("NS=3;DP=14;AF=0.5;DB;H2", data.info.get(0));
+		assertEquals("GT:GQ:DP:HQ", data.format.get(0));
+		assertEquals("0|0:48:1:51,51", data.sampleList.get(0).data.get(0));
+		assertEquals("1|0:48:8:51,51", data.sampleList.get(1).data.get(0));
+		assertEquals("1/1:43:5:.,.", data.sampleList.get(2).data.get(0));
+		
+	}
+	@Test
+	public void multipleSampleMultipleLine(){
+		String multiSampleMultiLine="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001	NA00002	NA00003\n"+
+				 "20	14370	rs6054257	G	A	29	PASS	NS=3;DP=14;AF=0.5;DB;H2	GT:GQ:DP:HQ	0|0:48:1:51,51	1|0:48:8:51,51	1/1:43:5:.,.\n"+
+				 "20	17330	.	T	A	3	q10	NS=3;DP=11;AF=0.017	GT:GQ:DP:HQ	0|0:49:3:58,50	0|1:3:5:65,3	0/0:41:3";
+		
+		BufferedReader reader=new BufferedReader(new StringReader(multiSampleMultiLine));
+		ParsedData data=new ParsedData(reader);
+		assertEquals("20", data.chrom.get(0));
+		assertEquals("14370", data.pos.get(0));
+		assertEquals("rs6054257", data.id.get(0));
+		assertEquals("G", data.ref.get(0));
+		assertEquals("A", data.alt.get(0));
+		assertEquals("29", data.qual.get(0));
+		assertEquals("PASS", data.filter.get(0));
+		assertEquals("NS=3;DP=14;AF=0.5;DB;H2", data.info.get(0));
+		assertEquals("GT:GQ:DP:HQ", data.format.get(0));
+		assertEquals("0|0:48:1:51,51", data.sampleList.get(0).data.get(0));
+		assertEquals("1|0:48:8:51,51", data.sampleList.get(1).data.get(0));
+		assertEquals("1/1:43:5:.,.", data.sampleList.get(2).data.get(0));
+		
+		assertEquals("20", data.chrom.get(1));
+		assertEquals("17330", data.pos.get(1));
+		assertEquals(".", data.id.get(1));
+		assertEquals("T", data.ref.get(1));
+		assertEquals("A", data.alt.get(1));
+		assertEquals("3", data.qual.get(1));
+		assertEquals("q10", data.filter.get(1));
+		assertEquals("NS=3;DP=11;AF=0.017", data.info.get(1));
+		assertEquals("GT:GQ:DP:HQ", data.format.get(1));
+		assertEquals("0|0:49:3:58,50", data.sampleList.get(0).data.get(1));
+		assertEquals("0|1:3:5:65,3", data.sampleList.get(1).data.get(1));
+		assertEquals("0/0:41:3", data.sampleList.get(2).data.get(1));
+		
+	}
 }
