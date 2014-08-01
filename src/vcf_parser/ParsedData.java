@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 
 public class ParsedData {
+	int variantCount=0;
 	public ArrayList<String> chrom = new ArrayList<String>();
 	public ArrayList<String> pos = new ArrayList<String>();
 	public ArrayList<String> id = new ArrayList<String>();
@@ -38,6 +39,7 @@ public class ParsedData {
 						sampleList.add(sample);
 					}
 				}else{
+					variantCount++;
 					for(int i=0;i<columns.length;i++){
 						if(i==0){
 							chrom.add(columns[i]);
@@ -70,6 +72,10 @@ public class ParsedData {
 		}catch(java.io.IOException ex){
 			System.out.println("error");
 		}
+	}
+
+	public int count() {
+		return variantCount;
 	}
 
 }

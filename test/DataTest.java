@@ -9,8 +9,6 @@ import vcf_parser.ParsedData;
 
 
 public class DataTest {
-
-	
 	@Test
 	public void singleLineTest() {
 		String singleData="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	HG00406\n"+
@@ -82,6 +80,7 @@ public class DataTest {
 		assertEquals("1/1:43:5:.,.", data.sampleList.get(2).data.get(0));
 		
 	}
+	
 	@Test
 	public void multipleSampleMultipleLine(){
 		String multiSampleMultiLine="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001	NA00002	NA00003\n"+
@@ -115,6 +114,20 @@ public class DataTest {
 		assertEquals("0|0:49:3:58,50", data.sampleList.get(0).data.get(1));
 		assertEquals("0|1:3:5:65,3", data.sampleList.get(1).data.get(1));
 		assertEquals("0/0:41:3", data.sampleList.get(2).data.get(1));
+		
+	}
+	
+	@Test
+	public void numberOfVariant(){
+		String multiSampleMultiLine="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001	NA00002	NA00003\n"+
+				 "20	14370	rs6054257	G	A	29	PASS	NS=3;DP=14;AF=0.5;DB;H2	GT:GQ:DP:HQ	0|0:48:1:51,51	1|0:48:8:51,51	1/1:43:5:.,.\n"+
+				 "20	17330	.	T	A	3	q10	NS=3;DP=11;AF=0.017	GT:GQ:DP:HQ	0|0:49:3:58,50	0|1:3:5:65,3	0/0:41:3\n"+
+				 "20	1234567	microsat1	GTC	G,GTCT	50	PASS	NS=3;DP=9;AA=G	GT:GQ:DP	0/1:35:4	0/2:17:2	1/1:40:3";
+	
+		BufferedReader reader=new BufferedReader(new StringReader(multiSampleMultiLine));
+		ParsedData data=new ParsedData(reader);
+		
+		assertEquals(3,data.count());
 		
 	}
 }
