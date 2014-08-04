@@ -151,9 +151,24 @@ public class DataTest {
 		
 		assertEquals("3",info.get("NS"));
 		assertEquals("11",info.get("DP"));
-		assertEquals("0.017",info.get("AF"));
+		assertEquals("0.017",info.alleleFrequency.get(0));
 	}
 	
+	@Test
+	public void parsedmultiInfo(){
+		String singleInfo="NS=2;DP=10;AF=0.333,0.667;AA=T;DB";
+		
+		InfoData info=new InfoData();
+		info.putData(singleInfo);
+		
+		assertEquals("2",info.get("NS"));
+		assertEquals("10",info.get("DP"));
+		assertEquals("0.333",info.alleleFrequency.get(0));
+		assertEquals("0.667",info.alleleFrequency.get(1));
+		assertEquals("T",info.get("AA"));
+		assertEquals(null,info.get("DB"));
+	}
+
 	@Test
 	public void parsedMultipleInfo(){
 		String multipleLine="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001	NA00002	NA00003\n"+
@@ -166,14 +181,14 @@ public class DataTest {
 		Variant variant = data.variantList.get(0);
 		assertEquals("3",variant.information.get("NS"));
 		assertEquals("14",variant.information.get("DP"));
-		assertEquals("0.5",variant.information.get("AF"));
+		assertEquals("0.5",variant.information.alleleFrequency.get(0));
 		assertEquals(null,variant.information.get("DB"));
 		assertEquals(null,variant.information.get("H2"));
 		
 		Variant variant2 = data.variantList.get(1);
 		assertEquals("3",variant2.information.get("NS"));
 		assertEquals("11",variant2.information.get("DP"));
-		assertEquals("0.017",variant2.information.get("AF"));
+		assertEquals("0.017",variant2.information.alleleFrequency.get(0));
 		
 	}
 
