@@ -20,11 +20,6 @@ public class Sample {
 	public String get(String key){
 		return hash.get(key);
 	}
-	
-	public String getName(String name) {
-		
-		return null;
-	}
-	
+
 	
 }

@@ -132,16 +132,17 @@ public class DataTest {
 		
 	}
 	
-//	@Test
-//	public void getSampleName(){
-//		String singleSample="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	HG00406\n"+
-//				"1	69270	rs201219564	A	G	1317.77	.	AC=2;AF=1.00;AN=2;DB;DP=630;Dels=0.00;FS=0.000;HaplotypeScore=0.0000;MLEAC=2;MLEAF=1.00;MQ=7.62;MQ0=582;QD=2.09	GT:AD:DP:GQ:PL	1/1:495,134:630:99:1346,129,0\n"+
-//				"1	69511	rs75062661	A	G	2385.77	.	AC=2;AF=1.00;AN=2;BaseQRankSum=0.331;DB;DP=122;Dels=0.00;FS=0.000;HaplotypeScore=4.3605;MLEAC=2;MLEAF=1.00;MQ=29.00;MQ0=17;MQRankSum=-1.732;QD=19.56;ReadPosRankSum=1.148	GT:AD:DP:GQ:PL	1/1:1,120:122:99:2414,195,0";
-//		
-//		Variant variant=new Variant(singleSample);
-//		//assertEquals("HG00406", variant.sampleList.get(0).name);
-//		
-//	}
+	@Test
+	public void getSampleName(){
+		String multipleSample="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001	NA00002	NA00003\n"+
+				 "20	14370	rs6054257	G	A	29	PASS	NS=3;DP=14;AF=0.5;DB;H2	GT:GQ:DP:HQ	0|0:48:1:51,51	1|0:48:8:51,51	1/1:43:5:.,.\n";
+		
+		BufferedReader reader=new BufferedReader(new StringReader(multipleSample));
+		ParsedData data=new ParsedData(reader);
+		assertEquals("NA00001", data.sampleName.get(0));
+		assertEquals("NA00002", data.sampleName.get(1));
+		assertEquals("NA00003", data.sampleName.get(2));
+	}
 	
 	@Test
 	public void parsedInfo(){
@@ -276,4 +277,5 @@ public class DataTest {
 		assertEquals("3",variant2_sample3.get("DP"));
 		assertEquals(null,variant2_sample3.get("HQ"));
 	}
+	
 }

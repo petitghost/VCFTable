@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 
 public class ParsedData {
+	public ArrayList<String> sampleName=new ArrayList<String>();
 	int variantCount=0;
 	public ArrayList<Variant> variantList=new ArrayList<Variant>();
 	
@@ -11,10 +12,15 @@ public class ParsedData {
 		try{
 			String line;
 			while((line=reader.readLine())!=null){
-				if(!line.startsWith("#")){
+				if(line.startsWith("#")){
+					String[] columns=line.split("\t");
+					for(int i=9;i<columns.length;i++){
+						sampleName.add(columns[i]);
+					}
+				}else{
 					variantCount++;
 					Variant variant=new Variant(line);
-					variantList.add(variant);
+					variantList.add(variant);					
 				}
 				
 			}
