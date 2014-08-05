@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import vcf_parser.InfoData;
 import vcf_parser.ParsedData;
+import vcf_parser.Sample;
 import vcf_parser.Variant;
 
 
@@ -189,7 +190,90 @@ public class DataTest {
 		assertEquals("3",variant2.information.get("NS"));
 		assertEquals("11",variant2.information.get("DP"));
 		assertEquals("0.017",variant2.information.alleleFrequency.get(0));
-		
+		  
 	}
 
+	@Test
+	public void parsedFormat(){
+		String Format="GT:GQ:DP:HQ";
+		String data="0|0:48:1:51,51";
+		Sample sample= new Sample(Format, data);
+	
+		assertEquals("0|0",sample.get("GT"));
+		assertEquals("48",sample.get("GQ"));
+		assertEquals("1",sample.get("DP"));
+		assertEquals("51,51",sample.get("HQ"));
+	}
+	
+	@Test
+	public void parsedMultiSampleFormat(){
+		String multipleLine="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001	NA00002	NA00003\n"+
+				 "20	14370	rs6054257	G	A	29	PASS	NS=3;DP=14;AF=0.5;DB;H2	GT:GQ:DP:HQ	0|0:48:1:51,51	1|0:48:8:51,51	1/1:43:5:.,.";
+		BufferedReader reader=new BufferedReader(new StringReader(multipleLine));
+		ParsedData data=new ParsedData(reader);
+	
+		Sample sample = data.variantList.get(0).sampleList.get(0);
+		assertEquals("0|0",sample.get("GT"));
+		assertEquals("48",sample.get("GQ"));
+		assertEquals("1",sample.get("DP"));
+		assertEquals("51,51",sample.get("HQ"));
+		
+		Sample sample2 = data.variantList.get(0).sampleList.get(1);
+		assertEquals("1|0",sample2.get("GT"));
+		assertEquals("48",sample2.get("GQ"));
+		assertEquals("8",sample2.get("DP"));
+		assertEquals("51,51",sample2.get("HQ"));
+		
+		Sample sample3 = data.variantList.get(0).sampleList.get(2);
+		assertEquals("1/1",sample3.get("GT"));
+		assertEquals("43",sample3.get("GQ"));
+		assertEquals("5",sample3.get("DP"));
+		assertEquals(".,.",sample3.get("HQ"));
+	}
+	
+	@Test
+	public void parsedMultiLineMultiSampleFormat(){
+		String multipleLine="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001	NA00002	NA00003\n"+
+				 "20	14370	rs6054257	G	A	29	PASS	NS=3;DP=14;AF=0.5;DB;H2	GT:GQ:DP:HQ	0|0:48:1:51,51	1|0:48:8:51,51	1/1:43:5:.,.\n"+
+				 "20	17330	.	T	A	3	q10	NS=3;DP=11;AF=0.017	GT:GQ:DP:HQ	0|0:49:3:58,50	0|1:3:5:65,3	0/0:41:3";
+		
+		BufferedReader reader=new BufferedReader(new StringReader(multipleLine));
+		ParsedData data=new ParsedData(reader);
+	
+		Sample variant1_sample1 = data.variantList.get(0).sampleList.get(0);
+		assertEquals("0|0",variant1_sample1.get("GT"));
+		assertEquals("48",variant1_sample1.get("GQ"));
+		assertEquals("1",variant1_sample1.get("DP"));
+		assertEquals("51,51",variant1_sample1.get("HQ"));
+		
+		Sample variant1_sample2 = data.variantList.get(0).sampleList.get(1);
+		assertEquals("1|0",variant1_sample2.get("GT"));
+		assertEquals("48",variant1_sample2.get("GQ"));
+		assertEquals("8",variant1_sample2.get("DP"));
+		assertEquals("51,51",variant1_sample2.get("HQ"));
+		
+		Sample variant1_sample3 = data.variantList.get(0).sampleList.get(2);
+		assertEquals("1/1",variant1_sample3.get("GT"));
+		assertEquals("43",variant1_sample3.get("GQ"));
+		assertEquals("5",variant1_sample3.get("DP"));
+		assertEquals(".,.",variant1_sample3.get("HQ"));
+		
+		Sample variant2_sample1 = data.variantList.get(1).sampleList.get(0);
+		assertEquals("0|0",variant2_sample1.get("GT"));
+		assertEquals("49",variant2_sample1.get("GQ"));
+		assertEquals("3",variant2_sample1.get("DP"));
+		assertEquals("58,50",variant2_sample1.get("HQ"));
+		
+		Sample variant2_sample2 = data.variantList.get(1).sampleList.get(1);
+		assertEquals("0|1",variant2_sample2.get("GT"));
+		assertEquals("3",variant2_sample2.get("GQ"));
+		assertEquals("5",variant2_sample2.get("DP"));
+		assertEquals("65,3",variant2_sample2.get("HQ"));
+		
+		Sample variant2_sample3 = data.variantList.get(1).sampleList.get(2);
+		assertEquals("0/0",variant2_sample3.get("GT"));
+		assertEquals("41",variant2_sample3.get("GQ"));
+		assertEquals("3",variant2_sample3.get("DP"));
+		assertEquals(null,variant2_sample3.get("HQ"));
+	}
 }

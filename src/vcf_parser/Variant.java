@@ -31,7 +31,7 @@ public class Variant {
 			case 8: this.format=columns[i];
 					break;
 			default:
-				Sample sample=new Sample(columns[i]);
+				Sample sample=new Sample(this.format, columns[i]);
 				sampleList.add(sample);
 			}
 
