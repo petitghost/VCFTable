@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class InfoData {
+	public String data;
 	Map<String,String> hash = new TreeMap<String, String>();
 	public ArrayList<String> alleleCount=new ArrayList<String>();
 	public ArrayList<String> alleleFrequency = new ArrayList<String>();
@@ -14,6 +15,7 @@ public class InfoData {
 	}
 	
 	public void putData(String data){
+		this.data=data;
 		String[] fields = data.split(";");
 		for(String field:fields){
 			if(field.indexOf("=")==-1){
