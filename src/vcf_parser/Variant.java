@@ -9,33 +9,21 @@ public class Variant {
 	
 	public Variant(String line) {
 		String[] columns=line.split("\t");
-		for(int i=0;i<columns.length;i++){
-			switch (i){
-			case 0: this.chrom=columns[i];
-					break;
-			case 1: this.pos=columns[i];
-					break;
-			case 2: this.id=columns[i];
-					break;
-			case 3: this.ref=columns[i];
-					break;
-			case 4: this.alt=columns[i];
-					break;
-			case 5: this.qual=columns[i];
-					break;
-			case 6: this.filter=columns[i];
-					break;
-			case 7: this.info=columns[i];
-					information=new InfoData(this.alt, columns[i]);
-					break;
-			case 8: this.format=columns[i];
-					break;
-			default:
+		this.chrom=columns[0];
+		this.pos=columns[1];
+		this.id=columns[2];
+		this.ref=columns[3];
+		this.alt=columns[4];
+		this.qual=columns[5];
+		this.filter=columns[6];
+		this.info=columns[7];
+		information=new InfoData(this.alt, columns[7]);
+		if(columns.length>8)
+			this.format=columns[8];
+			for(int i=9;i<columns.length;i++){
 				Sample sample=new Sample(this.format, columns[i]);
 				sampleList.add(sample);
 			}
 
 		}
-	}
-
 }
