@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Variant {
 	public String chrom, pos, id,ref, alt, qual, filter, info, format;
 	public ArrayList<Sample> sampleList = new ArrayList<Sample>();
-	public InfoData information=new InfoData();
+	public InfoData information;
 	
 	public Variant(String line) {
 		String[] columns=line.split("\t");
@@ -26,7 +26,7 @@ public class Variant {
 			case 6: this.filter=columns[i];
 					break;
 			case 7: this.info=columns[i];
-					information.putData(columns[i]);
+					information=new InfoData(this.alt, columns[i]);
 					break;
 			case 8: this.format=columns[i];
 					break;

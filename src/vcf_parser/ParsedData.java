@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class ParsedData {
 	public ArrayList<String> sampleName=new ArrayList<String>();
-	int variantCount=0;
 	public ArrayList<Variant> variantList=new ArrayList<Variant>();
 	
 	public ParsedData(BufferedReader reader) {
@@ -18,7 +17,6 @@ public class ParsedData {
 						sampleName.add(columns[i]);
 					}
 				}else{
-					variantCount++;
 					Variant variant=new Variant(line);
 					variantList.add(variant);					
 				}
@@ -30,8 +28,4 @@ public class ParsedData {
 		}
 	}
 
-	public int count() {
-		return variantCount;
-	}
-	
 }
