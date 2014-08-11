@@ -19,7 +19,10 @@ public class ParsedMetaInfo {
 	public ParsedMetaInfo(BufferedReader reader) {
 		try{
 			String line;
-			while((line=reader.readLine())!=null){
+			while((line=reader.readLine())!=null){ 
+				if(!line.startsWith("##")){
+					break;
+				}
 				if(line.contains("=<")){
 					if(line.startsWith("##FILTER")){
 						Filter filterItem=new Filter(line);
@@ -41,7 +44,7 @@ public class ParsedMetaInfo {
 			}
 			reader.close();
 		}catch(java.io.IOException ex){
-			System.out.println("error");
+			System.out.println("MetaInfo error");
 		}
 			
 	}

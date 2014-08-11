@@ -57,17 +57,14 @@ public class Upload extends HttpServlet {
 		final int maxFileSize = 100 * 1024 *1024;
 		final int maxMemSize = 4 * 1024;
 		
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-	    factory.setSizeThreshold(maxMemSize);
-	    factory.setRepository(new File("D:/apache-tomcat-7.0.54/webapps/data"));
+		DiskFileItemFactory factory = new DiskFileItemFactory(maxMemSize, new File("D:/apache-tomcat-7.0.54/webapps/data"));
 	
 	    ServletFileUpload upload = new ServletFileUpload(factory);
 	    upload.setSizeMax( maxFileSize );		
 	 
 		try{
 			List<FileItem> itemList = upload.parseRequest(request);
-			ParseFile input=new ParseFile();
-			input.saveFile(itemList);
+			FilePreProcess input=new FilePreProcess(itemList);
 
 		}catch(Exception ex){ //File large than MaxFileSize
 			out.println("Unavailable file!<br>");

@@ -11,7 +11,9 @@ public class ParsedData {
 		try{
 			String line;
 			while((line=reader.readLine())!=null){
-				if(line.startsWith("#")){
+				if(line.startsWith("##")){
+					continue;
+				}else if(line.startsWith("#")){
 					String[] columns=line.split("\t");
 					for(int i=9;i<columns.length;i++){
 						sampleName.add(columns[i]);
@@ -24,7 +26,7 @@ public class ParsedData {
 			}
 			reader.close();
 		}catch(java.io.IOException ex){
-			System.out.println("error");
+			System.out.println("Data error");
 		}
 	}
 
