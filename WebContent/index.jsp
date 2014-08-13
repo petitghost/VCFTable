@@ -12,13 +12,5 @@
 <input type="file" name="file" size="40" maxlength="20"/><br>
 <input type="submit" value="Upload"> <input type="reset" value="Clean">
 </form>
-<input type="checkbox" name="column" value="0">Chrom<br>
-<input type="checkbox" name="column" value="1">Position<br>
-<input type="checkbox" name="column" value="2">ID<br>
-<input type="checkbox" name="column" value="3">Reference<br>
-<input type="checkbox" name="column" value="4">Alt<br>
-<input type="checkbox" name="column" value="5">Qual<br>
-<input type="checkbox" name="column" value="6">Filter<br>
-<input type="checkbox" name="column" value="7">Info<br><br>
 </body>
 </html>
