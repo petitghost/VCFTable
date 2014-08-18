@@ -44,7 +44,7 @@ public class ColumnSelect extends HttpServlet {
 		try{
 			String[] columns=request.getParameterValues("column");
 			for(String column:columns){
-				out.println(column);
+				out.println(column+"<br>");
 			}
 		}catch(NullPointerException ex){
 			out.println("Please select field\n");
