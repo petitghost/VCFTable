@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ParsedMetaInfo {
+public class MetaInfo {
 
 	public Map<String, String> metaInfo=new TreeMap<String, String>();
 	public ArrayList<Filter> filterList=new ArrayList<Filter>();
@@ -15,14 +15,23 @@ public class ParsedMetaInfo {
 	public static void main(String[] args){
 		
 	}
-	
-	public ParsedMetaInfo(BufferedReader reader) {
+	public static MetaInfo parseHeaders(BufferedReader reader){
+		
 		try{
-			String line;
-			while((line=reader.readLine())!=null){ 
-				if(!line.startsWith("##")){
-					break;
-				}
+			while((reader.readLine()).startsWith("##")){ 
+			}
+		}catch(java.io.IOException ex){
+			System.out.println("MetaInfo error");
+		}
+		
+		return null;
+	}
+	
+	public MetaInfo(BufferedReader reader) {
+		try{
+			String line=null;
+			while((line=reader.readLine()).startsWith("##")){ 
+
 				if(line.contains("=<")){
 					if(line.startsWith("##FILTER")){
 						Filter filterItem=new Filter(line);
@@ -40,9 +49,8 @@ public class ParsedMetaInfo {
 					line=sb.toString();
 					String[] data=line.split("=");
 					put(data[0],data[1]);
-				}				
+				}
 			}
-			reader.close();
 		}catch(java.io.IOException ex){
 			System.out.println("MetaInfo error");
 		}

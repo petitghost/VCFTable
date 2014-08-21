@@ -5,7 +5,7 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
-import vcf_parser.ParsedData;
+import vcf_parser.BodyData;
 import vcf_parser.Sample;
 
 
@@ -30,7 +30,7 @@ public class SampleColumnTest {
 	public void parsedMultiSampleFormat(){
 		String multipleLine="20	14370	rs6054257	G	A	29	PASS	NS=3;DP=14;AF=0.5;DB;H2	GT:GQ:DP:HQ	0|0:48:1:51,51	1|0:48:8:51,51	1/1:43:5:.,.";
 		BufferedReader reader=new BufferedReader(new StringReader(multipleLine));
-		ParsedData data=new ParsedData(reader);
+		BodyData data=new BodyData(reader);
 	
 		Sample sample = data.variantList.get(0).sampleList.get(0);
 		assertEquals("0|0",sample.get("GT"));

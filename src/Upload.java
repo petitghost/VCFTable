@@ -23,18 +23,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import vcf_parser.Format;
 import vcf_parser.Info;
-import vcf_parser.ParsedData;
-import vcf_parser.ParsedMetaInfo;
-import vcf_parser.Variant;
+import vcf_parser.BodyData;
+import vcf_parser.MetaInfo;
 
 @WebServlet("/Upload")
 public class Upload extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -64,23 +58,21 @@ public class Upload extends HttpServlet {
 				BufferedReader br=null;
         	    String fileName = item.getName();
         	    if(fileName.endsWith(".vcf")){
-//        	    	br=new BufferedReader(new InputStreamReader(inputStream));
-//        	    	ParsedMetaInfo metaInfo=new ParsedMetaInfo(br);
-//        			ArrayList<Info> infoList = metaInfo.infoList;
-//        	    	request.setAttribute("infoColumn", infoList);
-//        	    	ArrayList<Format> formatList = metaInfo.formatList;
-//        	    	request.setAttribute("formatColumn", formatList);
-        	    	//RequestDispatcher dispatcher = request.getRequestDispatcher("/column.jsp");
-        	    	//dispatcher.forward(request, response);
-//        	    	br.close();
+        	    	br=new BufferedReader(new InputStreamReader(inputStream));
+        	    	MetaInfo metaInfo=new MetaInfo(br);
+        	    	//MetaInfo metaInfo=MetaInfo.parseHeaders(br);
+        			ArrayList<Info> infoList = metaInfo.infoList;
+        	    	request.setAttribute("infoColumn", infoList);
+        	    	ArrayList<Format> formatList = metaInfo.formatList;
+        	    	request.setAttribute("formatColumn", formatList);
         	    	
-        	    	br = new BufferedReader(new InputStreamReader(inputStream));
-        	    	ParsedData data=new ParsedData(br);
+        	    	BodyData data=new BodyData(br);
         	    	getServletContext().setAttribute("parsedData", data);
         	    	br.close();
         	    	
-        	    	RequestDispatcher dispatcher=request.getRequestDispatcher("/Download");
+        	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/column.jsp");
         	    	dispatcher.forward(request, response);
+
         	    }else{
         	    	out.println("Upload VCF file only.\n");
         	    }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import vcf_parser.InfoData;
-import vcf_parser.ParsedData;
+import vcf_parser.BodyData;
 import vcf_parser.Sample;
 import vcf_parser.Variant;
 
@@ -68,13 +68,13 @@ public class MandatoryColumnTest {
 	public void getSampleName(){
 		String sample="#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA00001";
 		BufferedReader reader=new BufferedReader(new StringReader(sample));
-		ParsedData data=new ParsedData(reader);
+		BodyData data=new BodyData(reader);
 		ArrayList<String> sampleName = data.sampleName;
 		assertEquals("NA00001", sampleName.get(0));
 		
 		sample += "	NA00002	NA00003\n";
 		reader=new BufferedReader(new StringReader(sample));
-		data=new ParsedData(reader);
+		data=new BodyData(reader);
 		sampleName = data.sampleName;
 		assertEquals("NA00002", sampleName.get(1));
 		assertEquals("NA00003", sampleName.get(2));
@@ -86,7 +86,7 @@ public class MandatoryColumnTest {
 	public void parsedMultiLineMultiSample(){
 		String multipleLine="20	14370	rs6054257	G	A	29	PASS	NS=3;DP=14;AF=0.5;DB;H2	GT:GQ:DP:HQ	0|0:48:1:51,51	1|0:48:8:51,51	1/1:43:5:.,.\n";				 
 		BufferedReader reader=new BufferedReader(new StringReader(multipleLine));
-		ParsedData data=new ParsedData(reader);
+		BodyData data=new BodyData(reader);
 		Variant variant = data.variantList.get(0);	
 		assertEquals("14370", variant.pos);
 		assertEquals("rs6054257", variant.id);
@@ -99,7 +99,7 @@ public class MandatoryColumnTest {
 		
 		multipleLine += "20	17330	.	T	A	3	q10	NS=3;DP=11;AF=0.017	GT:GQ:DP:HQ	0|0:49:3:58,50	0|1:3:5:65,3	0/0:41:3";
 		reader=new BufferedReader(new StringReader(multipleLine));
-		data=new ParsedData(reader);
+		data=new BodyData(reader);
 		variant = data.variantList.get(1);
 		assertEquals(".", variant.id);
 		

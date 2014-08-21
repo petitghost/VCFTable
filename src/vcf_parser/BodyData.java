@@ -3,11 +3,11 @@ package vcf_parser;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
-public class ParsedData {
+public class BodyData {
 	public ArrayList<String> sampleName=new ArrayList<String>();
 	public ArrayList<Variant> variantList=new ArrayList<Variant>();
 	
-	public ParsedData(BufferedReader reader) {
+	public BodyData(BufferedReader reader) {
 		try{
 			String line;
 			while((line=reader.readLine())!=null){
@@ -24,7 +24,6 @@ public class ParsedData {
 				}
 				
 			}
-			reader.close();
 		}catch(java.io.IOException ex){
 			System.out.println("Data error");
 		}
